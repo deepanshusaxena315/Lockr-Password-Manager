@@ -14,11 +14,18 @@ const Manager = () => {
     const [form, setform] = useState({ site: '', username: '', password: '' })
     const [passwordArray, setpasswordArray] = useState([])
 
+    const  getPasswords = async ()=>{
+        let req = await fetch("http://localhost:3000/")
+        let passwords = await req.json()
+        setpasswordArray(passwords)
+    }
+
     useEffect(() => {
-        let passwords = localStorage.getItem("passwords");
-        if (passwords) {
-            setpasswordArray(JSON.parse(passwords))
-        }
+        // let passwords = localStorage.getItem("passwords");
+        // if (passwords) {
+        //     setpasswordArray(JSON.parse(passwords))
+        // }
+        getPasswords()
     }, [])
 
 
@@ -34,12 +41,16 @@ const Manager = () => {
         }
     }
 
-    const savePassword = () => {
+    const savePassword = async () => {
         if(form.site.length >=3 && form.username.length >=3 && form.password.length >=3){
+            // if any such id exists in the db, delete it
+
+            // await fetch("https://localhost:3000/",{method:"DELETE",headers:{"Content-Type":"application/json"}, body:JSON.stringify({id: form.id })})
 
         
         setpasswordArray([...passwordArray, {...form,id:uuidv4()}])
-        localStorage.setItem("passwords", JSON.stringify([...passwordArray, {...form,id:uuidv4()}]))
+        await fetch("http://localhost:3000/",{method:"POST",headers:{"Content-Type":"application/json"}, body:JSON.stringify({...form,id:uuidv4() })})
+        // localStorage.setItem("passwords", JSON.stringify([...passwordArray, {...form,id:uuidv4()}]))
         setform({ site: '', username: '', password: '' });
         toast.success('Password saved!', {
             position: "top-left",
@@ -68,11 +79,13 @@ const Manager = () => {
         }
     }
 
-    const deletePassword = (id) => {
+    const deletePassword = async (id) => {
         let c = confirm("Do you want to delete this password?");
         if(c){
         setpasswordArray(passwordArray.filter(item=>item.id!==id))
-        localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item=>item.id!=id)))
+        // localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item=>item.id!=id)))
+        let res = await fetch("http://localhost:3000/",{method:"DELETE",headers:{"Content-Type":"application/json"}, body:JSON.stringify({id })})
+        
         toast.success('Password deleted!', {
             position: "top-left",
             autoClose: 2997,
@@ -87,7 +100,7 @@ const Manager = () => {
         }
     }
     const editPassword = (id) => {
-        setform(passwordArray.filter(i=>i.id===id)[0])
+        setform({...passwordArray.filter(i=>i.id===id)[0],id:id})
         setpasswordArray(passwordArray.filter(item=>item.id!==id))
     }
 
@@ -180,7 +193,7 @@ const Manager = () => {
         <div className='flex w-full gap-3 items-center justify-center'>{item.username} <Copy01Icon className="w-6 h-6 cursor-pointer" onClick={()=>{copyText(item.username)}} /></div>
       </td>
       <td className="border border-gray-400 px-4 py-2 text-center ">
-       <div className=' flex w-full gap-3 items-center justify-center'> {item.password} <Copy01Icon className="w-6 h-6 cursor-pointer" onClick={()=>{copyText(item.password)}} /></div>
+       <div className=' flex w-full gap-3 items-center justify-center'> {"*".repeat(item.password.length)} <Copy01Icon className="w-6 h-6 cursor-pointer" onClick={()=>{copyText(item.password)}} /></div>
       </td>
       <td className="border border-gray-400 px-4 py-2 text-center ">
         <span className='mx-2 cursor-pointer invert' onClick={()=>{editPassword(item.id)}}><lord-icon
