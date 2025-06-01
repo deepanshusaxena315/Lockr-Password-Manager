@@ -6,8 +6,8 @@ const cors = require('cors')
 dotenv.config()
 
 const url = 'mongodb://127.0.0.1:27017';
-const client = new MongoClient(process.env.MONGO_URL);
-console.log("Mongo URI:", process.env.MONGO_URL);
+const client = new MongoClient(process.env.MONGO_URI);
+console.log("Mongo URI:", process.env.MONGO_URI);
 
 const dbName = 'Lockr';
 const app = express();
@@ -33,7 +33,7 @@ app.post('/', async (req, res) => {
   const db = client.db(dbName);
   const collection = db.collection('passwords');
   const findResult = await collection.insertOne(password);
-  res.send({success: true},{ result: findResult})
+  res.send({success: true, result: findResult})
 });
 // delete a password by id
 app.delete('/', async (req, res) => {
