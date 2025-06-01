@@ -25,7 +25,7 @@ const Footer = () => {
         
       <div className='flex items-center gap-1 text-sm'>
         <span> Created with</span>
-        <img width={19} src="icons/heart.png" alt="heart" />
+        <img width={19} src="/icons/heart.png" alt="heart" />
         <span>by Deepanshu</span>
       </div>
     </div>

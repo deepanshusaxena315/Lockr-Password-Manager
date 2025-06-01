@@ -19,7 +19,7 @@ const Navbar = () => {
                     <button className='flex gap-2 items-center hover:font-semibold ring-white ring-1 rounded-2xl px-1'>
 
                         <a href="https://github.com/deepanshusaxena315/Lockr-Password-Manager" className='text-lg' target='_blank'>
-                            <div className='flex gap-2 items-center'><img className='invert w-8' src="icons/github.svg" alt="github logo" />Github</div></a>
+                            <div className='flex gap-2 items-center'><img className='invert w-8' src="/icons/github.svg" alt="github logo" />Github</div></a>
                     </button>
                 </div>
             </div>

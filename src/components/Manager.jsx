@@ -49,9 +49,11 @@ const Manager = () => {
 
         
         setpasswordArray([...passwordArray, {...form,id:uuidv4()}])
+        setform({ site: '', username: '', password: '' });
+        
         await fetch(`${import.meta.env.VITE_API_URL || ""}/`,{method:"POST",headers:{"Content-Type":"application/json"}, body:JSON.stringify({...form,id:uuidv4() })})
         // localStorage.setItem("passwords", JSON.stringify([...passwordArray, {...form,id:uuidv4()}]))
-        setform({ site: '', username: '', password: '' });
+        
         toast.success('Password saved!', {
             position: "top-left",
             autoClose: 2997,
