@@ -15,7 +15,7 @@ const Manager = () => {
     const [passwordArray, setpasswordArray] = useState([])
 
     const  getPasswords = async ()=>{
-        let req = await fetch("http://localhost:3000/")
+        let req = await fetch(`${import.meta.env.VITE_API_URL || ""}/`)
         let passwords = await req.json()
         setpasswordArray(passwords)
     }
@@ -49,7 +49,7 @@ const Manager = () => {
 
         
         setpasswordArray([...passwordArray, {...form,id:uuidv4()}])
-        await fetch("http://localhost:3000/",{method:"POST",headers:{"Content-Type":"application/json"}, body:JSON.stringify({...form,id:uuidv4() })})
+        await fetch(`${import.meta.env.VITE_API_URL || ""}/`,{method:"POST",headers:{"Content-Type":"application/json"}, body:JSON.stringify({...form,id:uuidv4() })})
         // localStorage.setItem("passwords", JSON.stringify([...passwordArray, {...form,id:uuidv4()}]))
         setform({ site: '', username: '', password: '' });
         toast.success('Password saved!', {
@@ -84,7 +84,7 @@ const Manager = () => {
         if(c){
         setpasswordArray(passwordArray.filter(item=>item.id!==id))
         // localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item=>item.id!=id)))
-        let res = await fetch("http://localhost:3000/",{method:"DELETE",headers:{"Content-Type":"application/json"}, body:JSON.stringify({id })})
+        let res = await fetch(`${import.meta.env.VITE_API_URL || ""}/`,{method:"DELETE",headers:{"Content-Type":"application/json"}, body:JSON.stringify({id })})
         
         toast.success('Password deleted!', {
             position: "top-left",

@@ -11,7 +11,7 @@ console.log("Mongo URI:", process.env.MONGO_URI);
 
 const dbName = 'Lockr';
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyparser.json())
 app.use(cors())
