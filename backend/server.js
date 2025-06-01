@@ -6,15 +6,19 @@ const cors = require('cors')
 dotenv.config()
 
 const url = 'mongodb://127.0.0.1:27017';
-const client = new MongoClient(url);
+const client = new MongoClient(process.env.MONGO_URL);
+console.log("Mongo URI:", process.env.MONGO_URL);
 
 const dbName = 'Lockr';
 const app = express();
 const PORT = 3000;
+
 app.use(bodyparser.json())
 app.use(cors())
 
-client.connect();
+client.connect()
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch(err => console.error('Connection error:', err));
 
 // get all the passwords 
 app.get('/', async (req, res) => {

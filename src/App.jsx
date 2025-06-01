@@ -10,12 +10,17 @@ function App() {
 
   return (
     <>
-      <div className="fixed inset-0 -z-10 bg-black">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_50%_200px,#3e3e3e,transparent)]" />
+      <div className="fixed inset-0 -z-10">
+        <div className="min-h-screen bg-gradient-to-br from-emerald-800 via-teal-950 to-green-800" />
       </div>
-      <Navbar/>
-      <Manager/>
+      
+      <div className="flex flex-col min-h-screen ">
+        <Navbar/>
+      <main className='flex-grow'>
+       <Manager />
+      </main>
       <Footer/>
+      </div>
     </>
   )
 }
